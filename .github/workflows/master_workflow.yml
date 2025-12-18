@@ -1,0 +1,18 @@
+name: "master workflow calling reusable workflow"
+
+on:
+    workflow_dispatch:
+        inputs:
+            approval:
+                description: "Type 'yes' to approve"
+                required: true
+
+
+jobs:
+    call-example-workflow:
+        uses: ./.github/workflows/_example_reusable_workflow.yml
+        with:
+            example_input: "Hello from master workflow"
+            github_ref: ${{ github.ref }}
+            github_workflow: ${{ github.workflow }}
+            github_run_id: ${{ github.run_id }}

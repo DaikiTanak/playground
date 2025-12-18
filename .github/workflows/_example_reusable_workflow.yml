@@ -1,0 +1,38 @@
+name: "example callable workflow"
+
+on:
+    workflow_call:
+        inputs:
+            example_input:
+                description: "An example input"
+                required: true
+                type: string
+            github_ref:
+                description: "The git reference to checkout"
+                required: false
+                type: string
+            github_workflow:
+                description: "The workflow file to run"
+                required: false
+                type: string
+            github_run_id:
+                description: "The run ID of the workflow to run"
+                required: false
+                type: string
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    printLog1:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print the example input
+              run: echo "printLog1 ${{ inputs.example_input }} ${{ inputs.github_ref }} ${{ inputs.github_workflow }} ${{ inputs.github_run_id }}"
+
+    printLog2:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print a static message
+              run: echo "printLog1 ${{ inputs.example_input }} ${{ inputs.github_ref }} ${{ inputs.github_workflow }} ${{ inputs.github_run_id }}"
